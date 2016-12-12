@@ -29,3 +29,12 @@ In **main.cpp** file there is function called *sendMsg()*. In this function you 
 addr.sin_addr.s_addr = inet_addr("192.168.230.70"); // Destination IP address
 ```
 Oculus Rift headset's position and orientation will be sent to this IP address to control servos, so you should set there IP address of your computer where servos are connected to (see diagram at the beginning of this manual).
+
+#### oculus_servos
+
+This software receives Oculus Rift headset's position and orientation and controls servos with video cameras attached to them.
+
+##### Usage
+```
+python ptrs.py oculus_1.0
+```
