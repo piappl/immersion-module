@@ -1,0 +1,68 @@
+#!/usr/bin/env python
+import serial                     # we need to import the pySerial stuff to use
+import socket
+import sys
+import string
+import json
+import math
+import time
+
+
+asd = 0.5
+
+UDP_IP = "192.168.230.70"
+UDP_PORT = 5006
+
+d=dict()
+sock = socket.socket(socket.AF_INET, # Internet
+                 socket.SOCK_DGRAM) # 
+ser = serial.Serial(port='/dev/ttymxc2', baudrate=57600, timeout=1)
+
+#time.sleep(2)
+accx = 0
+accy = 0 
+accz = -1 
+while True:
+
+    millis = int(round(time.time() * 1000))
+
+    while True:
+        line = ser.readline()
+        tmp = int(round(time.time() * 1000))
+
+        #line = line.replace("$","")
+        #line = line.replace("\x00","")
+        line = line.replace('#\r\n',"")
+        line = line.replace('\r',"")
+        line = line.replace('\n',"")
+        line = line.replace('#YPR=',"")
+
+        imu_data = string.split(line,",")
+
+        if len(imu_data) != 3:
+            continue
+
+        if tmp > millis + 50:
+            break
+
+        #accx = accx*(1-asd) + (asd)*int(imu_data[0])
+        #accy = accy*(1-asd) + (asd)*int(imu_data[1])
+        #accz = accz*(1-asd) + (asd)*int(imu_data[2])
+
+    #pitch = math.atan2(accy, accz)
+    #roll  = math.atan2(accx, accz)
+    print imu_data
+    pitch = -float(imu_data[1])/180.0*math.pi
+    roll  = float(imu_data[2])/180.0*math.pi
+
+    d["roll"]=roll
+    d["pitch"]=pitch
+    d["yaw"]=0
+
+    MESSAGE = json.dumps(d)
+
+    print "message:", MESSAGE
+
+    sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
+    
+

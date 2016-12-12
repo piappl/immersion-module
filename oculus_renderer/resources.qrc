@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/Icons">
+        <file>Data/Icon.ico</file>
+        <file>Data/Cancel.png</file>
+        <file>Data/OK.png</file>
+        <file>Data/Open.png</file>
+        <file>Data/Camera.png</file>
+        <file>Data/Save.png</file>
+    </qresource>
+    <qresource prefix="/StyleIcons">
+        <file>Style/checkbox.png</file>
+        <file>Style/down_arrow.png</file>
+        <file>Style/handle.png</file>
+    </qresource>
+</RCC>

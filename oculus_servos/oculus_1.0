@@ -1,0 +1,29 @@
+{
+    "port":"/dev/ttyUSB0",
+    "baud":"57600",
+    "dxl_version":"1",
+    "yaw":
+    {
+        "id":"2",
+        "servo_range":"300",
+        "servo_steps_number":"1023",
+        "joint_upper_limit":"180",
+        "joint_lower_limit":"-180"
+    },
+    "roll":
+    {
+        "id":"16",
+        "servo_range":"300",
+        "servo_steps_number":"1023",
+        "joint_upper_limit":"40",
+        "joint_lower_limit":"-40"
+    },
+    "pitch":
+    {
+        "id":"1",
+        "servo_range":"300",
+        "servo_steps_number":"1023",
+        "joint_upper_limit":"180",
+        "joint_lower_limit":"-40"
+    }
+}
