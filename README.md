@@ -1,6 +1,75 @@
 # immersion-module
 
-Software package contains of three components:
+## Hardware
+
+**List of parts:** 
+
+  - commercial parts:
+    - 2x Logitech Webcam C920
+    - 3x [AX-12](http://support.robotis.com/en/product/actuator/dynamixel/ax_series/dxl_ax_actuator.htm) servomotors
+    - 1x [Dynamixel2USB](http://support.robotis.com/en/product/auxdevice/interface/usb2dxl_manual.htm) or any other Dynamixel compatible interface 
+    - 1x [ FP04-F2](http://www.robotis.us/fp04-f2-10pcs/)
+    - 2x [FP04-F3](http://www.robotis.us/fp04-f3-10pcs/)
+    - 1x [FP04-F9](http://www.robotis.us/fp04-f9-5pcs/)
+    - Raspberry Pi 3 single-board computer
+    - 5V power supply for Raspberry
+    - 12V power supply for servomotors
+    - plastic housing
+ - custom part:
+    - 2x 3D-printer camera holder
+
+For the module 2 USB webcams were used. The Logitech C920 Webcam has a good image resolution (1920x1080), provides encoded stream and have autofocus feature integrated. It also has a stereo mic that could be used in a future. 
+Each camera is attached to the module using dedicated 3D-printed part (check /mechanics catalouge for the holder STL files). As the Oculus DK2 provides 960 x 1080 pixels per eye, we aligned the cameras vertically in order to utilize as much of the cameras capabilities as possible, see Fig . 
+
+Camera holders are then attached to the servos that are stacked each other. Each servomotor provides one degree of freedom (DOF) to mimic humans head natural movements. Thanks to that an user experience is smooth an comfortable. 
+
+The servos are connected in series mechanically and electrically (see the Fig). They are connected to the power supply and the USB to serial adapter as shown in the electrical scheme. The camera cables are connected to the Raspberry. All the electronics is enclosed in the plastic commercial housing. 
+
+**Servos connection**
+
+Connect servos as presented in Fig :?:
+Note that the servos IDs matter, you will need to provide them to the configuration file for software to run proper servo for each DOF. Servos are connected using the commercially available parts  FP04-F2, FP04-F3 and FP04-F9 and M2 screws and nuts.
+
+**Cameras attachment**
+
+Cameras are attached using 3D printed parts. Note that cameras are rotated in 90deg clockwise :!:sprawdzić:?: so the USB cable prevents them from falling out from the handler. A small rubber band is used for tightening the grip (Fig :?:)
+
+
+## Firmware
+
+IMPORTANT NOTICE:
+Before launching the module,the crucial part is to set up your configuration properly:
+1. firmware/servos/oculus_1.0
+	1. Servos IDs. Depending on the configuration you can have multiple files and use them for different modules. In our case we use firmware/oculus_1.0. You need to provide a proper servos IDs for a relevant joints (yaw, pitch and roll).
+	2. Servos limits. You can also define the motion limits for each joint depending on your particular configuration to prevent any joints collision. 
+	3. Serial interface. The serial interface is usually recognized as /dev/ttyUSB0 but in general it is possible that it gets some another name in the system. In such case you can define its name here.  
+2. firmware/cameras/cam1.sh and cam2.sh:
+	1. provide your cameras devices paths. In our case it is 'device=/dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_3AFA6F4F-video-index0' and 'device=/dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_EA71325F-video-index0' consequently. Please mind that the order matters as if you mismatch the paths your images will be interchanged. cam1.sh and cam2.sh corresponds with left and right camera consequently.
+	2. in 'udpsink host=10.5.2.32 port=1234' your operator computer IP address has to be provided
+
+
+To run the module copy the whole firmware catalogue to the Raspberry. Assuming the firmware is located in /home/pi/firmware then for launching the module you have to run the following commands in separate terminals:
+
+
+```
+/home/pi/firmware/cameras/cam1.sh
+/home/pi/firmware/cameras/cam2.sh	
+/home/pi/firmware/servos/ptrs.py /home/pi/firmware/servos/oculus_1.0
+```
+
+Where two first commands make the the video strams to be send and the third one controls the servos.
+
+
+To make the module to start automitically after powering the Raspberry you can add the commands to the /etc/rc.local file:
+
+```
+/home/pi/firmware/cameras/cam1.sh &
+/home/pi/firmware/cameras/cam2.sh &
+/home/pi/firmware/servos/ptrs.py /home/pi/firmware/servos/oculus_1.0 &
+```
+
+## Software
+Software package contains three components:
 * oculus_renderer
 * oculus_position
 * oculus_servos
@@ -9,7 +78,16 @@ Relation between software is presented on diagram below:
 
 ![Data Flow](https://github.com/piappl/immersion-module/blob/master/Images/data_flow.PNG?raw=true)
 
-#### oculus_position
+
+### module
+
+This  directory contains software that receives Oculus Rift headset's position and orientation and controls servos with video cameras attached to them. There are also scripts for video transmission.
+
+##### Usage
+```
+python ptrs.py oculus_1.0
+```
+### oculus_position
 
 This software connects to Oculus Rift headset, retrieves headset's position and orientation and next sends these data to VR module computer controlling servos with video cameras attached to them (computer where **oculus_servos** application is running).  
 
@@ -30,16 +108,9 @@ addr.sin_addr.s_addr = inet_addr("192.168.230.70"); // Destination IP address
 ```
 Oculus Rift headset's position and orientation will be sent to this IP address to control servos, so you should set there IP address of your computer where servos are connected to (see diagram at the beginning of this manual).
 
-#### oculus_servos
 
-This software receives Oculus Rift headset's position and orientation and controls servos with video cameras attached to them.
 
-##### Usage
-```
-python ptrs.py oculus_1.0
-```
-
-#### oculus_renderer
+### oculus_renderer
 
 This software is responsible for rendering video in stereo mode (from two video cameras) for Oculus Rift headset.
 
