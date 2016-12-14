@@ -2,6 +2,8 @@
 
 ## Hardware
 
+<img src="https://github.com/piappl/immersion-module/blob/master/Images/r5cop_piap_oculus_cams.jpg?raw=true" width=500>
+
 **List of parts:** 
 
   - commercial parts:
@@ -14,31 +16,59 @@
     - Raspberry Pi 3 single-board computer
     - 5V power supply for Raspberry
     - 12V power supply for servomotors
-    - plastic housing
+    - some plastic housing
  - custom part:
     - 2x 3D-printer camera holder
 
 For the module 2 USB webcams were used. The Logitech C920 Webcam has a good image resolution (1920x1080), provides encoded stream and have autofocus feature integrated. It also has a stereo mic that could be used in a future. 
-Each camera is attached to the module using dedicated 3D-printed part (check /mechanics catalouge for the holder STL files). As the Oculus DK2 provides 960 x 1080 pixels per eye, we aligned the cameras vertically in order to utilize as much of the cameras capabilities as possible, see Fig . 
+Each camera is attached to the module using dedicated 3D-printed part (check /mechanics catalouge for the holder STL files). 
 
-Camera holders are then attached to the servos that are stacked each other. Each servomotor provides one degree of freedom (DOF) to mimic humans head natural movements. Thanks to that an user experience is smooth an comfortable. 
+<img src="https://github.com/piappl/immersion-module/blob/master/Images/all_connected.JPG?raw=true" width=500/>
 
-The servos are connected in series mechanically and electrically (see the Fig). They are connected to the power supply and the USB to serial adapter as shown in the electrical scheme. The camera cables are connected to the Raspberry. All the electronics is enclosed in the plastic commercial housing. 
+As the Oculus DK2 provides 960 x 1080 pixels per eye, we aligned the cameras vertically in order to utilize as much of the cameras capabilities as possible.
+
+Horizontal vs vertical view is presented below:
+
+![horizontal](https://raw.githubusercontent.com/piappl/immersion-module/master/Images/horizontal_cameras.png)
+
+![vertical](https://raw.githubusercontent.com/piappl/immersion-module/master/Images/vertical_cameras.png)
+
+Camera holders are attached to the servos that are stacked each other. Each servomotor provides one degree of freedom (DOF) to mimic humans head natural movements. Thanks to that an user experience is smooth an comfortable. 
+
+<img src="https://github.com/piappl/immersion-module/blob/master/Images/kinematics.JPG?raw=true" width=500/>
+
+The servos are connected in series mechanically and electrically. They are connected to the power supply and the USB to serial adapter. The camera USB cables are connected directly to the Raspberry. All the electronics is enclosed in the plastic commercial housing. 
+
+
+
 
 **Servos connection**
 
-Connect servos as presented in Fig :?:
+As mentioned before, servos are connected in series:
+
 Note that the servos IDs matter, you will need to provide them to the configuration file for software to run proper servo for each DOF. Servos are connected using the commercially available parts  FP04-F2, FP04-F3 and FP04-F9 and M2 screws and nuts.
+
+<img src="https://github.com/piappl/immersion-module/blob/master/Images/servos_connection.JPG?raw=true" width=500/>
 
 **Cameras attachment**
 
-Cameras are attached using 3D printed parts. Note that cameras are rotated in 90deg clockwise :!:sprawdzić:?: so the USB cable prevents them from falling out from the handler. A small rubber band is used for tightening the grip (Fig :?:)
+Cameras are attached using 3D printed parts. Note that cameras are rotated in 90deg clockwise so the USB cable prevents them from falling out from the handler. A small rubber band is used for tightening the grip.
+
+## Software
+Software package contains three components:
+* oculus_renderer
+* oculus_position
+* firmware
+
+Relation between software is presented on diagram below:
+
+![Data Flow](https://github.com/piappl/immersion-module/blob/master/Images/data_flow.PNG?raw=true)
 
 
-## Firmware
+### firmware
 
 IMPORTANT NOTICE:
-Before launching the module,the crucial part is to set up your configuration properly:
+Before launching the module, it is crucial to set up your configuration properly:
 1. firmware/servos/oculus_1.0
 	1. Servos IDs. Depending on the configuration you can have multiple files and use them for different modules. In our case we use firmware/oculus_1.0. You need to provide a proper servos IDs for a relevant joints (yaw, pitch and roll).
 	2. Servos limits. You can also define the motion limits for each joint depending on your particular configuration to prevent any joints collision. 
@@ -68,25 +98,9 @@ To make the module to start automitically after powering the Raspberry you can a
 /home/pi/firmware/servos/ptrs.py /home/pi/firmware/servos/oculus_1.0 &
 ```
 
-## Software
-Software package contains three components:
-* oculus_renderer
-* oculus_position
-* oculus_servos
-
-Relation between software is presented on diagram below:
-
-![Data Flow](https://github.com/piappl/immersion-module/blob/master/Images/data_flow.PNG?raw=true)
 
 
-### module
 
-This  directory contains software that receives Oculus Rift headset's position and orientation and controls servos with video cameras attached to them. There are also scripts for video transmission.
-
-##### Usage
-```
-python ptrs.py oculus_1.0
-```
 ### oculus_position
 
 This software connects to Oculus Rift headset, retrieves headset's position and orientation and next sends these data to VR module computer controlling servos with video cameras attached to them (computer where **oculus_servos** application is running).  
