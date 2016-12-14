@@ -9,7 +9,7 @@
   - commercial parts:
     - 2x Logitech Webcam C920
     - 3x [AX-12](http://support.robotis.com/en/product/actuator/dynamixel/ax_series/dxl_ax_actuator.htm) servomotors
-    - 1x [Dynamixel2USB](http://support.robotis.com/en/product/auxdevice/interface/usb2dxl_manual.htm) or any other Dynamixel compatible interface 
+    - 1x [USB2Dynamixel](http://support.robotis.com/en/product/auxdevice/interface/usb2dxl_manual.htm) or any other Dynamixel compatible interface 
     - 1x [ FP04-F2](http://www.robotis.us/fp04-f2-10pcs/)
     - 2x [FP04-F3](http://www.robotis.us/fp04-f3-10pcs/)
     - 1x [FP04-F9](http://www.robotis.us/fp04-f9-5pcs/)
@@ -17,6 +17,7 @@
     - 5V power supply for Raspberry
     - 12V power supply for servomotors
     - some plastic housing
+ 
  - custom part:
     - 2x 3D-printer camera holder
 
