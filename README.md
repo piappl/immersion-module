@@ -1,11 +1,12 @@
 # immersion-module
 
-## Hardware
+This repo contains software and hardware design of an immersion module. The module is designed to provide a stereo, human-like vision for a robot operator. The module is assumed to run with the Oculus Rift DK2 headgear and is composed of a set of commercially available parts such as Dynamixel servomotors, Raspberry PI single-board computer, Logitech USB vebcams, custom 3D-printed parts and some custom software
+![module](https://github.com/piappl/immersion-module/blob/master/Images/r5cop_piap_oculus_cams.jpg?raw=true)
+This document presents how to manufacture, program and use a the module.
 
-<img src="https://github.com/piappl/immersion-module/blob/master/Images/r5cop_piap_oculus_cams.jpg?raw=true" width=500>
 
-**List of parts:** 
-
+### Requirements:
+**Hardware:** 
   - commercial parts:
     - 2x Logitech Webcam C920
     - 3x [AX-12](http://support.robotis.com/en/product/actuator/dynamixel/ax_series/dxl_ax_actuator.htm) servomotors
@@ -21,10 +22,19 @@
  - custom part:
     - 2x 3D-printer camera holder
 
+**Software**
+  - Windows computer
+  - Oculus SDK 6.0.0
+
+## Hardware
+
+
+
+
 For the module 2 USB webcams were used. The Logitech C920 Webcam has a good image resolution (1920x1080), provides encoded stream and have autofocus feature integrated. It also has a stereo mic that could be used in a future. 
 Each camera is attached to the module using dedicated 3D-printed part (check /mechanics catalouge for the holder STL files). 
 
-<img src="https://github.com/piappl/immersion-module/blob/master/Images/all_connected.JPG?raw=true" width=500/>
+![module](https://github.com/piappl/immersion-module/blob/master/Images/all_connected.JPG?raw=true)
 
 As the Oculus DK2 provides 960 x 1080 pixels per eye, we aligned the cameras vertically in order to utilize as much of the cameras capabilities as possible.
 
