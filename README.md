@@ -81,13 +81,17 @@ Relation between software is presented on diagram below:
 **IMPORTANT NOTICE:**
 
 Before launching the module, it is crucial to set up your configuration properly:
+
 1. firmware/servos/oculus_1.0:
-	1. Servos IDs. Depending on the configuration you can have multiple files and use them for different modules. In our case we use firmware/oculus_1.0. You need to provide a proper servos IDs for a relevant joints (yaw, pitch and roll).
-	2. Servos limits. You can also define the motion limits for each joint depending on your particular configuration to prevent any joints collision. 
-	3. Serial interface. The serial interface is usually recognized as **/dev/ttyUSB0** but in general it is possible that it gets some another name in the system. In such case you can define its name here.  
+
+   1. Servos IDs. Depending on the configuration you can have multiple files and use them for different modules. In our case we use firmware/oculus_1.0. You need to provide a proper servos IDs for a relevant joints (yaw, pitch and roll).
+   2. Servos limits. You can also define the motion limits for each joint depending on your particular configuration to prevent any joints collision. 
+   3. Serial interface. The serial interface is usually recognized as **/dev/ttyUSB0** but in general it is possible that it gets some another name in the system. In such case you can define its name here.  
+   
 2. firmware/cameras/cam1.sh and cam2.sh:
-	1. provide your cameras devices paths. In our case it is *'device=/dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_3AFA6F4F-video-index0'* and *'device=/dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_EA71325F-video-index0'* consequently. Please mind that the order matters as if you mismatch the paths your images will be interchanged. cam1.sh and cam2.sh corresponds with left and right camera consequently.
-	2. in *'udpsink host=10.5.2.32 port=1234'* your operator computer IP address has to be provided.
+
+   1. provide your cameras devices paths. In our case it is *'device=/dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_3AFA6F4F-video-index0'* and *'device=/dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_EA71325F-video-index0'* consequently. Please mind that the order matters as if you mismatch the paths your images will be interchanged. cam1.sh and cam2.sh corresponds with left and right camera consequently.
+   2. in *'udpsink host=10.5.2.32 port=1234'* your operator computer IP address has to be provided.
 
 #### Running firmware
 To run the module, copy the whole firmware catalogue to the Raspberry. Assuming the firmware is located in */home/pi/firmware* then for launching the module you have to run the following commands in separate terminals:
